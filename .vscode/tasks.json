@@ -2,6 +2,22 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			// Create output folder
+			"type": "shell",
+			"label": "Make dir",
+			"linux": {
+				"command": "mkdir -p ./bin"
+			},
+			"windows": {
+				"command": "cmd",
+				"args": [
+					"/C",
+					"if not exist .\\bin mkdir .\\bin"
+				]
+			}
+		},
+		{
+			// Run compiler
 			"type": "cppbuild",
 			"label": "C/C++: cl.exe build active file",
 			"command": "cl.exe",
@@ -10,8 +26,8 @@
 				"/EHsc",
 				"/nologo",
 				"/Fe:",
-				"${fileDirname}\\${fileBasenameNoExtension}.exe",
-				"${file}"
+				"${fileDirname}\\bin\\${fileBasenameNoExtension}.exe",
+				"${file}",
 			],
 			"options": {
 				"cwd": "${fileDirname}"
@@ -23,7 +39,11 @@
 				"kind": "build",
 				"isDefault": true
 			},
-			"detail": "compiler: cl.exe"
+			"detail": "compiler: cl.exe",
+			// add dependancy
+			"dependsOn": [
+				"Make dir"
+			]
 		}
 	]
 }
